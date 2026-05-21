@@ -8,6 +8,21 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
+        /* Bloqueio de seleção de texto na página (Proteção) */
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        /* Permite seleção apenas nos campos de input para o usuário conseguir digitar */
+        input, textarea {
+            -webkit-user-select: auto;
+            -moz-user-select: auto;
+            -ms-user-select: auto;
+            user-select: auto;
+        }
+
         /* Ocultar barra de rolagem mas manter a funcionalidade para a galeria */
         .hide-scroll::-webkit-scrollbar {
             display: none;
@@ -24,8 +39,21 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
     </style>
+    
+    <script>
+        // Proteção Avançada contra cópia de código-fonte e atalhos do desenvolvedor
+        document.addEventListener('keydown', function(e) {
+            if(e.keyCode == 123) { return false; } // Bloqueia F12
+            if(e.ctrlKey && e.shiftKey && (e.keyCode == 'I'.charCodeAt(0) || e.keyCode == 'C'.charCodeAt(0) || e.keyCode == 'J'.charCodeAt(0))) { 
+                return false; // Bloqueia Ctrl+Shift+I / C / J
+            } 
+            if(e.ctrlKey && (e.keyCode == 'U'.charCodeAt(0) || e.keyCode == 'S'.charCodeAt(0))) { 
+                return false; // Bloqueia Ctrl+U (Ver código-fonte) e Ctrl+S (Salvar)
+            }
+        });
+    </script>
 </head>
-<body class="bg-slate-50 min-h-screen font-sans pb-16 text-slate-800">
+<body class="bg-slate-50 min-h-screen font-sans pb-16 text-slate-800" oncontextmenu="return false;">
 
     <script>
         // URL OFICIAL DO SEU APPS SCRIPT
@@ -33,6 +61,7 @@
         
         const PAYMENT_LINK = 'https://mpago.la/12aMvGG';
         const WHATSAPP_LINK = 'https://chat.whatsapp.com/IHTRsU9JaTc6W0xwoUnqiT';
+        const PIX_KEY = '71992756180';
     </script>
 
     <!-- Cabeçalho (Hero) - Design Premium Cinza/Grafite -->
@@ -224,6 +253,26 @@
     </div>
 
     <script>
+        // Função para copiar o PIX usando execCommand compatível com restrições do navegador
+        window.copiarPix = function() {
+            const tempInput = document.createElement("input");
+            tempInput.value = PIX_KEY;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+            
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: 'success',
+                title: 'Chave PIX copiada com sucesso!',
+                showConfirmButton: false,
+                timer: 2500,
+                timerProgressBar: true
+            });
+        }
+
         // Buscar números
         async function fetchNumbers() {
             try {
@@ -325,24 +374,39 @@
                     closeModal();
                     Swal.fire({
                         title: 'Reserva Confirmada! 🎉',
-                        html: '<p class="text-slate-600 mb-4">Seu número <b>' + String(payload.numero).padStart(2, '0') + '</b> foi reservado com sucesso.</p>Para garantir sua participação, efetue o pagamento de <b>R$ 10,00</b> e envie o comprovante no grupo.',
+                        html: `
+                            <p class="text-slate-600 mb-4">Seu número <b>${String(payload.numero).padStart(2, '0')}</b> foi reservado com sucesso!</p>
+                            
+                            <div class="bg-slate-100 p-5 rounded-2xl mb-4 border border-slate-200">
+                                <p class="text-sm text-slate-500 mb-2">Pague <b>R$ 10,00</b> via PIX (Celular):</p>
+                                <p class="font-black text-2xl text-slate-900 mb-4 tracking-wider">${PIX_KEY}</p>
+                                <button type="button" onclick="copiarPix()" class="w-full bg-[#10b981] hover:bg-[#059669] text-white font-bold py-3 px-4 rounded-xl transition shadow-md">
+                                    <i class="fas fa-copy mr-2"></i> Copiar Chave PIX
+                                </button>
+                            </div>
+                            
+                            <p class="text-sm text-slate-500 font-medium">Após o pagamento, envie o comprovante no grupo VIP.</p>
+                        `,
                         icon: 'success',
                         showCancelButton: true,
-                        confirmButtonText: '<i class="fas fa-credit-card mr-2"></i> Pagar Agora',
-                        cancelButtonText: '<i class="fab fa-whatsapp mr-2"></i> Ir pro Grupo',
-                        confirmButtonColor: '#0f172a', // slate-900
-                        cancelButtonColor: '#25D366',  // WhatsApp green
+                        confirmButtonText: '<i class="fab fa-whatsapp mr-2"></i> Ir pro Grupo',
+                        cancelButtonText: '<i class="fas fa-credit-card mr-2"></i> Pagar c/ Cartão',
+                        confirmButtonColor: '#25D366', // Cor WhatsApp
+                        cancelButtonColor: '#0f172a',  // Cor secundária p/ Mercado Pago
                         reverseButtons: true,
                         customClass: {
-                            popup: 'rounded-3xl',
-                            confirmButton: 'rounded-xl font-bold px-6 py-3',
-                            cancelButton: 'rounded-xl font-bold px-6 py-3'
+                            popup: 'rounded-[2rem]',
+                            confirmButton: 'rounded-xl font-bold px-5 py-3',
+                            cancelButton: 'rounded-xl font-bold px-5 py-3'
                         }
                     }).then((result) => {
+                        // Confirmado = WhatsApp
                         if (result.isConfirmed) {
-                            window.open(PAYMENT_LINK, '_blank');
-                        } else if (result.dismiss === Swal.DismissReason.cancel) {
                             window.open(WHATSAPP_LINK, '_blank');
+                        } 
+                        // Cancelado (Secundário) = Mercado Pago
+                        else if (result.dismiss === Swal.DismissReason.cancel) {
+                            window.open(PAYMENT_LINK, '_blank');
                         }
                         document.getElementById('numbers-grid').classList.add('hidden');
                         document.getElementById('loading').classList.remove('hidden');
