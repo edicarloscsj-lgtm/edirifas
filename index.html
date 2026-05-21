@@ -140,7 +140,7 @@
                 <i class="fas fa-info-circle mr-3 text-slate-400"></i> Sobre o Sorteio
             </h2>
             <ul class="space-y-3 text-slate-300 text-sm md:text-base relative z-10 font-medium">
-                <li class="flex items-start"><i class="fas fa-check text-green-400 mt-1 mr-3"></i> O sorteio acontecerá no <strong>primeiro sábado</strong> após a venda de todos os números.</li>
+                <li class="flex items-start"><i class="fas fa-check text-green-400 mt-1 mr-3"></i> O sorteio acontecerá <strong>assim que todos os números</strong> tiverem sido preenchidos.</li>
                 <li class="flex items-start"><i class="fas fa-video text-green-400 mt-1 mr-3"></i> A transmissão será ao vivo pelo nosso grupo VIP.</li>
             </ul>
             <div class="mt-8 relative z-10">
@@ -151,11 +151,25 @@
         </section>
 
         <!-- Seção de Números -->
-        <div class="text-center mb-8">
+        <div class="text-center mb-6">
             <span class="text-slate-500 font-bold tracking-widest uppercase text-sm mb-2 block">Participe Agora</span>
             <h2 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">ESCOLHA SEUS NÚMEROS</h2>
         </div>
         
+        <!-- Barra de Progresso -->
+        <div id="progress-section" class="max-w-2xl mx-auto mb-8 hidden bg-white p-5 rounded-2xl shadow-sm border border-slate-100">
+            <div class="flex justify-between items-end mb-2">
+                <span class="text-slate-700 font-bold text-sm">Progresso das Vendas</span>
+                <span id="progress-text" class="text-slate-900 font-black text-lg">0%</span>
+            </div>
+            <div class="w-full bg-slate-100 rounded-full h-3 shadow-inner overflow-hidden">
+                <div id="progress-bar" class="bg-slate-800 h-full rounded-full transition-all duration-1000 ease-out w-0 relative">
+                    <div class="absolute top-0 left-0 w-full h-full bg-white opacity-20 animate-pulse"></div>
+                </div>
+            </div>
+            <p class="text-xs text-slate-500 mt-2 text-center font-medium" id="progress-details">Carregando...</p>
+        </div>
+
         <div id="loading" class="text-center py-16 bg-white rounded-[2.5rem] shadow-sm border border-slate-100">
             <i class="fas fa-circle-notch fa-spin text-5xl text-slate-400 mb-6"></i>
             <p class="text-slate-600 font-medium text-lg">Carregando painel de números...</p>
@@ -222,6 +236,8 @@
                     const grid = document.getElementById('numbers-grid');
                     grid.innerHTML = '';
                     
+                    let reservedCount = 0;
+
                     data.forEach(item => {
                         const btn = document.createElement('button');
                         btn.textContent = String(item.numero).padStart(2, '0');
@@ -231,6 +247,7 @@
                             btn.className = 'bg-white border-2 border-slate-200 text-slate-600 font-black text-lg md:text-xl py-3 md:py-4 rounded-2xl hover:bg-slate-800 hover:text-white hover:border-slate-800 transition shadow-sm transform hover:-translate-y-1 hover:shadow-md';
                             btn.onclick = () => openModal(item.numero);
                         } else {
+                            reservedCount++;
                             // Estilo número RESERVADO
                             btn.className = 'bg-slate-100 border-2 border-slate-100 text-slate-300 font-bold text-lg md:text-xl py-3 md:py-4 rounded-2xl cursor-not-allowed relative overflow-hidden';
                             // Traço sutil no meio para indicar reservado
@@ -242,6 +259,15 @@
                         }
                         grid.appendChild(btn);
                     });
+
+                    // Atualizar Barra de Progresso
+                    const totalCount = data.length;
+                    const progressPercentage = totalCount > 0 ? Math.round((reservedCount / totalCount) * 100) : 0;
+                    
+                    document.getElementById('progress-bar').style.width = `${progressPercentage}%`;
+                    document.getElementById('progress-text').textContent = `${progressPercentage}%`;
+                    document.getElementById('progress-details').textContent = `${reservedCount} de ${totalCount} números preenchidos`;
+                    document.getElementById('progress-section').classList.remove('hidden');
 
                     document.getElementById('loading').classList.add('hidden');
                     grid.classList.remove('hidden');
