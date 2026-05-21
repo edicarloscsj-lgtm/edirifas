@@ -16,9 +16,16 @@
             -ms-overflow-style: none;
             scrollbar-width: none;
         }
+        /* Efeito de vidro sutil */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen font-sans pb-12">
+<body class="bg-slate-50 min-h-screen font-sans pb-16 text-slate-800">
 
     <script>
         // URL OFICIAL DO SEU APPS SCRIPT
@@ -28,138 +35,176 @@
         const WHATSAPP_LINK = 'https://chat.whatsapp.com/IHTRsU9JaTc6W0xwoUnqiT';
     </script>
 
-    <!-- Cabeçalho (Hero) -->
-    <header class="bg-gradient-to-r from-blue-700 to-indigo-900 text-white p-8 shadow-xl rounded-b-[2.5rem]">
-        <div class="max-w-4xl mx-auto flex flex-col items-center text-center">
-            <span class="bg-yellow-400 text-blue-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider mb-4">Sorteio Oficial</span>
-            <h1 class="text-3xl md:text-4xl font-extrabold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-white to-blue-200">
+    <!-- Cabeçalho (Hero) - Design Premium Cinza/Grafite -->
+    <header class="bg-gradient-to-b from-slate-900 via-gray-800 to-slate-900 text-white pt-12 pb-16 px-6 shadow-2xl rounded-b-[2.5rem] md:rounded-b-[4rem] relative overflow-hidden">
+        <!-- Elementos decorativos de fundo -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-20 pointer-events-none">
+            <div class="absolute -top-24 -right-24 w-96 h-96 bg-slate-500 rounded-full mix-blend-overlay filter blur-[64px]"></div>
+            <div class="absolute bottom-10 -left-20 w-72 h-72 bg-gray-400 rounded-full mix-blend-overlay filter blur-[48px]"></div>
+        </div>
+
+        <div class="max-w-4xl mx-auto flex flex-col items-center text-center relative z-10">
+            <span class="bg-slate-700/50 border border-slate-500 text-slate-200 text-xs font-bold px-4 py-1.5 rounded-full uppercase tracking-widest mb-6 shadow-sm backdrop-blur-sm">
+                Sorteio Oficial
+            </span>
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-black mb-4 text-transparent bg-clip-text bg-gradient-to-r from-gray-100 to-gray-400 tracking-tight leading-tight">
                 Infinix Hot 50i 256GB
             </h1>
-            <p class="text-lg md:text-xl font-medium text-blue-100 mt-2">
-                Smartphone moderno, rápido e com muito espaço! 🚀
+            <p class="text-lg md:text-xl font-light text-gray-300 mt-2 max-w-2xl mx-auto">
+                Smartphone moderno, rápido e com muito espaço. A tecnologia que você precisa, ao seu alcance. 🚀
             </p>
-            <div class="mt-6 inline-block bg-white text-blue-900 font-bold text-2xl px-8 py-3 rounded-2xl shadow-lg border-2 border-blue-200">
-                Apenas R$ 10,00 o bilhete
+            <div class="mt-8 inline-block glass-effect text-white font-semibold text-2xl md:text-3xl px-10 py-4 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
+                Apenas <span class="font-black text-white">R$ 10,00</span>
             </div>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto px-4 mt-8">
+    <main class="max-w-4xl mx-auto px-4 sm:px-6 mt-[-2rem] relative z-20">
         
         <!-- Galeria de Imagens -->
-        <section class="mb-8">
-            <h2 class="text-xl font-bold text-gray-800 mb-4 px-2"><i class="fas fa-camera text-blue-600 mr-2"></i>Conheça o Prêmio</h2>
-            <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 hide-scroll">
-                <!-- Imagens fornecidas pelo cliente (coloque no Vercel junto com o index.html) -->
-                <img src="00-abertura.jpg" alt="Infinix Hot 50i Abertura" class="w-72 md:w-96 h-64 md:h-80 object-cover object-center rounded-2xl snap-center shadow-md shrink-0 border-2 border-gray-200 bg-white p-2">
-                <img src="c0641cb2b12d0cfd17fbb3b20c3510b4.webp" alt="Infinix Traseira" class="w-72 md:w-96 h-64 md:h-80 object-contain rounded-2xl snap-center shadow-md shrink-0 border-2 border-gray-200 bg-white p-2">
-                <img src="captura-de-tela-2026-05-20-171206-e0d19e41751d03660517793079736799-1024-1024.webp" alt="Infinix Frente" class="w-72 md:w-96 h-64 md:h-80 object-contain rounded-2xl snap-center shadow-md shrink-0 border-2 border-gray-200 bg-white p-2">
-                <img src="D_NQ_NP_2X_810267-MLA91562210920_092025-F.webp" alt="Resistência a Água" class="w-72 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border-2 border-gray-200 bg-white p-2">
-                <img src="D_NQ_NP_2X_931492-MLA91961243731_092025-F.webp" alt="Memória" class="w-72 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border-2 border-gray-200 bg-white p-2">
-                <img src="D_NQ_NP_2X_957440-MLA91961204483_092025-F.webp" alt="Bateria" class="w-72 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border-2 border-gray-200 bg-white p-2">
-                <img src="D_NQ_NP_2X_967775-MLA91562685188_092025-F.webp" alt="Processador" class="w-72 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border-2 border-gray-200 bg-white p-2">
+        <section class="mb-10">
+            <div class="bg-white p-6 rounded-[2rem] shadow-xl border border-slate-100">
+                <h2 class="text-xl md:text-2xl font-bold text-slate-800 mb-6 flex items-center">
+                    <i class="fas fa-camera-retro text-slate-400 mr-3 text-2xl"></i> Conheça o Prêmio
+                </h2>
+                
+                <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 hide-scroll px-2">
+                    <!-- Imagens (Tamanhos ajustados para mobile ficar perfeito: w-[80vw]) -->
+                    <img src="00-abertura.jpg" alt="Infinix Hot 50i Abertura" class="w-[80vw] sm:w-80 md:w-96 h-64 md:h-80 object-cover object-center rounded-2xl snap-center shadow-md shrink-0 border border-slate-200 bg-slate-50 p-1">
+                    <img src="c0641cb2b12d0cfd17fbb3b20c3510b4.webp" alt="Infinix Traseira" class="w-[80vw] sm:w-80 md:w-96 h-64 md:h-80 object-contain rounded-2xl snap-center shadow-md shrink-0 border border-slate-200 bg-slate-50 p-4">
+                    <img src="captura-de-tela-2026-05-20-171206-e0d19e41751d03660517793079736799-1024-1024.webp" alt="Infinix Frente" class="w-[80vw] sm:w-80 md:w-96 h-64 md:h-80 object-contain rounded-2xl snap-center shadow-md shrink-0 border border-slate-200 bg-slate-50 p-4">
+                    <img src="D_NQ_NP_2X_810267-MLA91562210920_092025-F.webp" alt="Resistência a Água" class="w-[80vw] sm:w-80 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border border-slate-200 bg-slate-50 p-1">
+                    <img src="D_NQ_NP_2X_931492-MLA91961243731_092025-F.webp" alt="Memória" class="w-[80vw] sm:w-80 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border border-slate-200 bg-slate-50 p-1">
+                    <img src="D_NQ_NP_2X_957440-MLA91961204483_092025-F.webp" alt="Bateria" class="w-[80vw] sm:w-80 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border border-slate-200 bg-slate-50 p-1">
+                    <img src="D_NQ_NP_2X_967775-MLA91562685188_092025-F.webp" alt="Processador" class="w-[80vw] sm:w-80 md:w-96 h-64 md:h-80 object-cover rounded-2xl snap-center shadow-md shrink-0 border border-slate-200 bg-slate-50 p-1">
+                </div>
+                
+                <!-- Indicador de Deslize visível e animado -->
+                <div class="flex justify-center items-center mt-4 text-slate-400 text-sm font-medium animate-pulse">
+                    <i class="fas fa-hand-point-right mr-2"></i>
+                    <p>Deslize para ver mais fotos</p>
+                    <i class="fas fa-arrows-alt-h ml-2"></i>
+                </div>
             </div>
-            <p class="text-xs text-center text-gray-500 mt-[-10px]">Deslize para ver mais fotos <i class="fas fa-arrows-alt-h ml-1"></i></p>
         </section>
 
         <!-- Especificações -->
-        <section class="bg-white p-6 rounded-3xl shadow-sm mb-8">
-            <h2 class="text-xl font-bold text-gray-900 mb-4 border-b pb-3"><i class="fas fa-list-ul text-blue-600 mr-2"></i>Especificações Principais</h2>
-            <p class="text-gray-600 text-sm mb-4">Ideal para redes sociais, vídeos, estudos, trabalho e jogos leves.</p>
+        <section class="bg-white p-6 md:p-8 rounded-[2rem] shadow-sm border border-slate-100 mb-10">
+            <h2 class="text-xl md:text-2xl font-bold text-slate-800 mb-2 border-b border-slate-100 pb-4 flex items-center">
+                <i class="fas fa-sliders-h text-slate-400 mr-3"></i> Especificações Técnicas
+            </h2>
+            <p class="text-slate-500 text-sm mb-6 font-medium">Ideal para redes sociais, vídeos, estudos, trabalho e jogos leves.</p>
             
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-gray-700">
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fas fa-hdd text-xl text-blue-500 w-6"></i>
-                    <span><strong>256GB</strong> de Armazenamento</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm text-slate-700">
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fas fa-hdd text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium"><strong class="text-slate-900">256GB</strong> de Armazenamento</span>
                 </div>
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fas fa-microchip text-xl text-blue-500 w-6"></i>
-                    <span><strong>4GB RAM</strong> + 4GB Virtual</span>
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fas fa-microchip text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium"><strong class="text-slate-900">4GB RAM</strong> + 4GB Virtual</span>
                 </div>
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fas fa-mobile text-xl text-blue-500 w-6"></i>
-                    <span>Tela Gigante <strong>6.7" IPS 120Hz</strong></span>
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fas fa-mobile-alt text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium">Tela Gigante <strong class="text-slate-900">6.7" IPS 120Hz</strong></span>
                 </div>
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fas fa-camera text-xl text-blue-500 w-6"></i>
-                    <span>Câmera Principal <strong>48MP + HDR</strong> 📸</span>
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fas fa-camera text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium">Câmera <strong class="text-slate-900">48MP + HDR</strong> 📸</span>
                 </div>
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fas fa-battery-full text-xl text-green-500 w-6"></i>
-                    <span>Bateria Poderosa <strong>5000mAh</strong> 🔋</span>
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fas fa-battery-full text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium">Bateria Poderosa <strong class="text-slate-900">5000mAh</strong> 🔋</span>
                 </div>
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fas fa-cogs text-xl text-blue-500 w-6"></i>
-                    <span>Processador <strong>Helio G81</strong> MediaTek</span>
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fas fa-cogs text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium">Processador <strong class="text-slate-900">Helio G81</strong></span>
                 </div>
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fab fa-android text-xl text-green-500 w-6"></i>
-                    <span>Android 14 (XOS 14.5)</span>
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fab fa-android text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium">Android 14 (XOS 14.5)</span>
                 </div>
-                <div class="flex items-center gap-3 bg-gray-50 p-3 rounded-xl">
-                    <i class="fas fa-fingerprint text-xl text-blue-500 w-6"></i>
-                    <span>Dual Chip, Leitor digital e USB-C</span>
+                <div class="flex items-center gap-4 bg-slate-50 hover:bg-slate-100 transition-colors p-4 rounded-2xl border border-slate-100">
+                    <div class="bg-white p-2 rounded-lg shadow-sm"><i class="fas fa-fingerprint text-xl text-slate-700 w-6 text-center"></i></div>
+                    <span class="font-medium">Dual Chip, Digital e USB-C</span>
                 </div>
             </div>
         </section>
 
         <!-- Regras e Grupo VIP -->
-        <section class="bg-blue-50 p-6 rounded-3xl border border-blue-100 shadow-sm mb-10">
-            <h2 class="text-xl font-bold text-blue-900 mb-4"><i class="fas fa-info-circle mr-2"></i>Como funciona o Sorteio?</h2>
-            <ul class="space-y-3 text-blue-800 text-sm">
-                <li class="flex"><i class="fas fa-check-circle mt-1 mr-2 text-blue-500"></i> O sorteio acontecerá no <strong>primeiro sábado</strong> após a venda de todos os números.</li>
-                <li class="flex"><i class="fas fa-video mt-1 mr-2 text-blue-500"></i> A transmissão será ao vivo.</li>
+        <section class="bg-slate-800 text-white p-6 md:p-8 rounded-[2rem] shadow-lg mb-12 relative overflow-hidden">
+            <div class="absolute top-0 right-0 opacity-10 text-9xl -mt-4 -mr-4 pointer-events-none">
+                <i class="fas fa-ticket-alt"></i>
+            </div>
+            <h2 class="text-xl md:text-2xl font-bold mb-4 relative z-10 flex items-center">
+                <i class="fas fa-info-circle mr-3 text-slate-400"></i> Sobre o Sorteio
+            </h2>
+            <ul class="space-y-3 text-slate-300 text-sm md:text-base relative z-10 font-medium">
+                <li class="flex items-start"><i class="fas fa-check text-green-400 mt-1 mr-3"></i> O sorteio acontecerá no <strong>primeiro sábado</strong> após a venda de todos os números.</li>
+                <li class="flex items-start"><i class="fas fa-video text-green-400 mt-1 mr-3"></i> A transmissão será ao vivo pelo nosso grupo VIP.</li>
             </ul>
-            <div class="mt-6 flex flex-col sm:flex-row gap-4">
-                <a href="https://chat.whatsapp.com/IHTRsU9JaTc6W0xwoUnqiT" target="_blank" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-4 px-4 rounded-xl text-center font-bold transition shadow-lg flex items-center justify-center gap-2">
-                    <i class="fab fa-whatsapp text-2xl"></i> Grupo VIP do Sorteio
+            <div class="mt-8 relative z-10">
+                <a href="https://chat.whatsapp.com/IHTRsU9JaTc6W0xwoUnqiT" target="_blank" class="w-full sm:w-auto inline-flex bg-[#25D366] hover:bg-[#1ebd5a] text-white py-4 px-8 rounded-2xl text-center font-bold transition shadow-lg items-center justify-center gap-3 text-lg">
+                    <i class="fab fa-whatsapp text-2xl"></i> Entrar no Grupo VIP
                 </a>
             </div>
         </section>
 
         <!-- Seção de Números -->
-        <h2 class="text-2xl font-black text-gray-900 mb-6 text-center tracking-tight">ESCOLHA SEUS NÚMEROS</h2>
+        <div class="text-center mb-8">
+            <span class="text-slate-500 font-bold tracking-widest uppercase text-sm mb-2 block">Participe Agora</span>
+            <h2 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">ESCOLHA SEUS NÚMEROS</h2>
+        </div>
         
-        <div id="loading" class="text-center py-12 bg-white rounded-3xl shadow-sm border border-gray-100">
-            <i class="fas fa-spinner fa-spin text-5xl text-blue-600 mb-4"></i>
-            <p class="text-gray-600 font-medium">Buscando números disponíveis na planilha...</p>
+        <div id="loading" class="text-center py-16 bg-white rounded-[2.5rem] shadow-sm border border-slate-100">
+            <i class="fas fa-circle-notch fa-spin text-5xl text-slate-400 mb-6"></i>
+            <p class="text-slate-600 font-medium text-lg">Carregando painel de números...</p>
             <p id="error-msg" class="text-red-500 font-bold mt-4 hidden text-sm px-4"></p>
         </div>
 
-        <div id="numbers-grid" class="grid grid-cols-5 sm:grid-cols-8 md:grid-cols-10 gap-3 hidden bg-white p-4 rounded-3xl shadow-sm">
+        <!-- O grid responsivo vai de 5 a 10 colunas dependendo da tela -->
+        <div id="numbers-grid" class="grid grid-cols-5 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-2 md:gap-3 hidden bg-white p-5 md:p-8 rounded-[2.5rem] shadow-xl border border-slate-100">
             <!-- Números injetados via JS -->
         </div>
     </main>
 
     <!-- Modal Form (Escondido) -->
-    <div id="reservation-modal" class="fixed inset-0 bg-gray-900 bg-opacity-60 backdrop-blur-sm hidden flex items-center justify-center z-50 px-4">
-        <div class="bg-white rounded-3xl p-6 w-full max-w-md shadow-2xl transform transition-all">
-            <div class="flex justify-between items-center mb-4 border-b pb-4">
-                <h3 class="text-xl font-bold text-gray-900">
-                    Garantir Número <span id="selected-number-display" class="bg-blue-600 text-white px-3 py-1 rounded-lg ml-2"></span>
+    <div id="reservation-modal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm hidden flex items-center justify-center z-50 px-4 transition-opacity">
+        <div class="bg-white rounded-[2rem] p-6 md:p-8 w-full max-w-md shadow-2xl transform transition-all">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-100 pb-4">
+                <h3 class="text-xl md:text-2xl font-bold text-slate-900">
+                    Número Escolhido
                 </h3>
-                <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 bg-gray-100 hover:bg-red-50 rounded-full w-8 h-8 flex items-center justify-center transition"><i class="fas fa-times"></i></button>
+                <span id="selected-number-display" class="bg-slate-900 text-white font-black text-xl px-4 py-1.5 rounded-xl ml-2 shadow-md"></span>
             </div>
+            
+            <p class="text-slate-500 text-sm mb-6 font-medium">Preencha rapidamente para garantir sua reserva.</p>
             
             <form id="reservation-form" onsubmit="submitReservation(event)">
                 <input type="hidden" id="selected-number-input">
-                <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">Nome Completo</label>
+                <div class="mb-5">
+                    <label class="block text-slate-700 text-sm font-bold mb-2 ml-1" for="nome">Nome Completo</label>
                     <div class="relative">
-                        <i class="fas fa-user absolute left-4 top-4 text-gray-400"></i>
-                        <input class="bg-gray-50 border border-gray-200 rounded-xl w-full py-3 pl-10 pr-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition" id="nome" type="text" required placeholder="Ex: João Silva">
+                        <i class="fas fa-user absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                        <input class="bg-slate-50 border border-slate-200 rounded-2xl w-full py-4 pl-11 pr-4 text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-slate-800 focus:bg-white transition shadow-sm" id="nome" type="text" required placeholder="Ex: João Silva">
                     </div>
                 </div>
-                <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="telefone">WhatsApp (com DDD)</label>
+                <div class="mb-8">
+                    <label class="block text-slate-700 text-sm font-bold mb-2 ml-1" for="telefone">WhatsApp (com DDD)</label>
                     <div class="relative">
-                        <i class="fab fa-whatsapp absolute left-4 top-4 text-gray-400"></i>
-                        <input class="bg-gray-50 border border-gray-200 rounded-xl w-full py-3 pl-10 pr-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition" id="telefone" type="tel" required placeholder="Ex: 71999999999">
+                        <i class="fab fa-whatsapp absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400"></i>
+                        <input class="bg-slate-50 border border-slate-200 rounded-2xl w-full py-4 pl-11 pr-4 text-slate-800 font-medium focus:outline-none focus:ring-2 focus:ring-slate-800 focus:bg-white transition shadow-sm" id="telefone" type="tel" required placeholder="Ex: 71999999999">
                     </div>
                 </div>
-                <button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-4 rounded-xl transition shadow-lg flex justify-center items-center text-lg">
-                    Confirmar Reserva
-                </button>
+                
+                <div class="flex gap-3">
+                    <button type="button" onclick="closeModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold py-4 px-4 rounded-2xl transition text-center">
+                        Cancelar
+                    </button>
+                    <button type="submit" id="submit-btn" class="w-2/3 bg-slate-900 hover:bg-black text-white font-bold py-4 px-4 rounded-2xl transition shadow-lg flex justify-center items-center text-lg">
+                        Confirmar
+                    </button>
+                </div>
             </form>
         </div>
     </div>
@@ -168,11 +213,7 @@
         // Buscar números
         async function fetchNumbers() {
             try {
-                // Requisição GET
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=getNumbers`);
-                
-                // Se o Apps script retornar HTML (a página de sorteio) em vez de JSON,
-                // significa que o ?action=getNumbers não foi reconhecido.
                 const textResponse = await response.text();
                 
                 try {
@@ -186,14 +227,16 @@
                         btn.textContent = String(item.numero).padStart(2, '0');
                         
                         if (item.status === 'Livre' || !item.status) {
-                            btn.className = 'bg-white border-2 border-green-400 text-green-700 font-black text-lg py-3 rounded-xl hover:bg-green-500 hover:text-white hover:border-green-500 transition shadow-sm transform hover:-translate-y-1';
+                            // Estilo número LIVRE (Cinza claro, hover para Grafite escuro)
+                            btn.className = 'bg-white border-2 border-slate-200 text-slate-600 font-black text-lg md:text-xl py-3 md:py-4 rounded-2xl hover:bg-slate-800 hover:text-white hover:border-slate-800 transition shadow-sm transform hover:-translate-y-1 hover:shadow-md';
                             btn.onclick = () => openModal(item.numero);
                         } else {
-                            btn.className = 'bg-gray-100 border-2 border-gray-200 text-gray-400 font-bold text-lg py-3 rounded-xl cursor-not-allowed opacity-60 relative overflow-hidden';
-                            // Traço no meio para indicar reservado
+                            // Estilo número RESERVADO
+                            btn.className = 'bg-slate-100 border-2 border-slate-100 text-slate-300 font-bold text-lg md:text-xl py-3 md:py-4 rounded-2xl cursor-not-allowed relative overflow-hidden';
+                            // Traço sutil no meio para indicar reservado
                             btn.innerHTML = `<span class="relative z-10">${String(item.numero).padStart(2, '0')}</span>
-                                           <div class="absolute inset-0 flex items-center justify-center opacity-30">
-                                              <div class="w-full h-1 bg-red-500 rotate-45"></div>
+                                           <div class="absolute inset-0 flex items-center justify-center opacity-40">
+                                              <div class="w-full h-0.5 bg-slate-400 rotate-45"></div>
                                            </div>`;
                             btn.disabled = true;
                         }
@@ -204,7 +247,6 @@
                     grid.classList.remove('hidden');
                     
                 } catch (e) {
-                    // Ocorreu erro de parsing, provável HTML recebido em vez de JSON
                     console.error("Resposta não foi JSON:", textResponse.substring(0, 100));
                     throw new Error("O script retornou HTML. Você precisa criar uma 'Nova Implantação' no Apps Script.");
                 }
@@ -234,7 +276,7 @@
             
             const btn = document.getElementById('submit-btn');
             btn.disabled = true;
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processando...';
+            btn.innerHTML = '<i class="fas fa-circle-notch fa-spin mr-2"></i> Aguarde...';
 
             const payload = {
                 numero: document.getElementById('selected-number-input').value,
@@ -257,34 +299,48 @@
                     closeModal();
                     Swal.fire({
                         title: 'Reserva Confirmada! 🎉',
-                        html: 'Número <b>' + String(payload.numero).padStart(2, '0') + '</b> reservado.<br><br>Pague agora <b>R$ 10,00</b> e mande o comprovante no WhatsApp.',
+                        html: '<p class="text-slate-600 mb-4">Seu número <b>' + String(payload.numero).padStart(2, '0') + '</b> foi reservado com sucesso.</p>Para garantir sua participação, efetue o pagamento de <b>R$ 10,00</b> e envie o comprovante no grupo.',
                         icon: 'success',
                         showCancelButton: true,
-                        confirmButtonText: '<i class="fas fa-credit-card"></i> Fazer Pagamento',
-                        cancelButtonText: '<i class="fab fa-whatsapp"></i> Ir pro Grupo',
-                        confirmButtonColor: '#2563eb',
-                        cancelButtonColor: '#22c55e',
-                        reverseButtons: true
+                        confirmButtonText: '<i class="fas fa-credit-card mr-2"></i> Pagar Agora',
+                        cancelButtonText: '<i class="fab fa-whatsapp mr-2"></i> Ir pro Grupo',
+                        confirmButtonColor: '#0f172a', // slate-900
+                        cancelButtonColor: '#25D366',  // WhatsApp green
+                        reverseButtons: true,
+                        customClass: {
+                            popup: 'rounded-3xl',
+                            confirmButton: 'rounded-xl font-bold px-6 py-3',
+                            cancelButton: 'rounded-xl font-bold px-6 py-3'
+                        }
                     }).then((result) => {
                         if (result.isConfirmed) {
                             window.open(PAYMENT_LINK, '_blank');
                         } else if (result.dismiss === Swal.DismissReason.cancel) {
                             window.open(WHATSAPP_LINK, '_blank');
                         }
-                        // Recarrega os números
                         document.getElementById('numbers-grid').classList.add('hidden');
                         document.getElementById('loading').classList.remove('hidden');
                         fetchNumbers();
                     });
                 } else {
-                    Swal.fire('Atenção', 'Erro: ' + (result.error || 'Tente novamente.'), 'error');
+                    Swal.fire({
+                        title: 'Ops!', 
+                        text: (result.error || 'Tente novamente.'), 
+                        icon: 'error',
+                        confirmButtonColor: '#0f172a'
+                    });
                     btn.disabled = false;
-                    btn.innerHTML = 'Confirmar Reserva';
+                    btn.innerHTML = 'Confirmar';
                 }
             } catch (error) {
-                Swal.fire('Erro de Conexão', 'Não foi possível conectar com o servidor.', 'error');
+                Swal.fire({
+                    title: 'Erro de Conexão', 
+                    text: 'Não foi possível conectar com o servidor.', 
+                    icon: 'error',
+                    confirmButtonColor: '#0f172a'
+                });
                 btn.disabled = false;
-                btn.innerHTML = 'Confirmar Reserva';
+                btn.innerHTML = 'Confirmar';
             }
         }
 
