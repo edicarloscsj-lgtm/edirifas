@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rifa - Infinix Hot 50i</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 min-h-screen font-sans pb-12">
+
+    <script>
+        // === ATENÇÃO: COLE A URL DO SEU GOOGLE APPS SCRIPT AQUI ===
+        const APPS_SCRIPT_URL = 'COLE_AQUI_A_URL_DO_SEU_APPS_SCRIPT'; 
+        
+        const PAYMENT_LINK = 'https://mpago.la/12aMvGG';
+        const WHATSAPP_LINK = 'https://chat.whatsapp.com/IHTRsU9JaTc6W0xwoUnqiT';
+        const TICKET_PRICE = 'R$ 10,00';
+    </script>
+
+    <!-- Header -->
+    <header class="bg-blue-600 text-white p-6 shadow-md rounded-b-3xl">
+        <div class="max-w-4xl mx-auto flex flex-col items-center text-center">
+            <i class="fas fa-mobile-alt text-5xl mb-4"></i>
+            <h1 class="text-3xl font-bold mb-2">Ação Entre Amigos</h1>
+            <p class="text-xl">Celular Infinix Hot 50i Dual Sim 256GB</p>
+            <p class="text-md opacity-90 mt-1">4 + 4 GB RAM | Tela 6.7"</p>
+        </div>
+    </header>
+
+    <!-- Info Section -->
+    <main class="max-w-4xl mx-auto px-4 mt-8">
+        <div class="bg-white p-6 rounded-2xl shadow-sm mb-8 text-gray-700">
+            <h2 class="text-xl font-bold text-gray-900 mb-4 border-b pb-2"><i class="fas fa-info-circle mr-2"></i>Informações Importantes</h2>
+            <ul class="space-y-3">
+                <li><i class="fas fa-ticket-alt text-blue-500 w-6"></i> <strong>Valor do bilhete:</strong> R$ 10,00</li>
+                <li><i class="fas fa-calendar-check text-blue-500 w-6"></i> <strong>Sorteio:</strong> Primeiro sábado após a venda de todos os números.</li>
+                <li><i class="fas fa-video text-blue-500 w-6"></i> O sorteio será transmitido ao vivo e o link será compartilhado no grupo do WhatsApp.</li>
+            </ul>
+            <div class="mt-6 flex flex-col sm:flex-row gap-4">
+                <a href="https://chat.whatsapp.com/IHTRsU9JaTc6W0xwoUnqiT" target="_blank" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 px-4 rounded-xl text-center font-bold transition">
+                    <i class="fab fa-whatsapp mr-2"></i> Entrar no Grupo VIP
+                </a>
+            </div>
+        </div>
+
+        <!-- Numbers Grid -->
+        <h2 class="text-2xl font-bold text-gray-900 mb-4 text-center">Escolha seus Números</h2>
+        
+        <div id="loading" class="text-center py-10">
+            <i class="fas fa-spinner fa-spin text-4xl text-blue-500 mb-4"></i>
+            <p class="text-gray-500">Carregando números disponíveis...</p>
+        </div>
+
+        <div id="numbers-grid" class="grid grid-cols-5 sm:grid-cols-10 gap-2 hidden">
+            <!-- Numbers will be injected here -->
+        </div>
+    </main>
+
+    <!-- Modal Form (Hidden by default) -->
+    <div id="reservation-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50 px-4">
+        <div class="bg-white rounded-2xl p-6 w-full max-w-md shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-900">Reservar Número <span id="selected-number-display" class="text-blue-600"></span></h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-800"><i class="fas fa-times text-xl"></i></button>
+            </div>
+            <p class="text-sm text-gray-600 mb-4">Preencha seus dados para garantir este número. Você será redirecionado para o pagamento em seguida.</p>
+            
+            <form id="reservation-form" onsubmit="submitReservation(event)">
+                <input type="hidden" id="selected-number-input">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="nome">Nome Completo</label>
+                    <input class="shadow-sm border rounded-xl w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="nome" type="text" required placeholder="Ex: João da Silva">
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="telefone">WhatsApp (com DDD)</label>
+                    <input class="shadow-sm border rounded-xl w-full py-3 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" id="telefone" type="tel" required placeholder="Ex: 11999999999">
+                </div>
+                <button type="submit" id="submit-btn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-xl transition flex justify-center items-center">
+                    Confirmar Reserva
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let availableNumbers = [];
+
+        // Fetch numbers from Apps Script on load
+        async function fetchNumbers() {
+            if(APPS_SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbznE4DfpUz191xcDQXxNnLeCZ7WyYjlkPNON3EJvVgdnWFfAqldFKwudRbH7J0GEWg/exec') {
+                document.getElementById('loading').innerHTML = '<p class="text-red-500 font-bold">Erro: Você precisa configurar a URL do Apps Script no arquivo index.html.</p>';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getNumbers`);
+                const data = await response.json();
+                
+                const grid = document.getElementById('numbers-grid');
+                grid.innerHTML = '';
+                
+                data.forEach(item => {
+                    const btn = document.createElement('button');
+                    btn.textContent = String(item.numero).padStart(2, '0');
+                    
+                    if (item.status === 'Livre' || !item.status) {
+                        btn.className = 'bg-white border-2 border-green-400 text-green-700 font-bold py-3 rounded-lg hover:bg-green-500 hover:text-white hover:border-green-500 transition shadow-sm';
+                        btn.onclick = () => openModal(item.numero);
+                    } else {
+                        btn.className = 'bg-gray-200 border-2 border-gray-300 text-gray-400 font-bold py-3 rounded-lg cursor-not-allowed';
+                        btn.disabled = true;
+                    }
+                    grid.appendChild(btn);
+                });
+
+                document.getElementById('loading').classList.add('hidden');
+                grid.classList.remove('hidden');
+
+            } catch (error) {
+                console.error(error);
+                document.getElementById('loading').innerHTML = '<p class="text-red-500 font-bold">Erro ao carregar números. Tente atualizar a página.</p>';
+            }
+        }
+
+        function openModal(number) {
+            document.getElementById('selected-number-display').textContent = String(number).padStart(2, '0');
+            document.getElementById('selected-number-input').value = number;
+            document.getElementById('reservation-modal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('reservation-modal').classList.add('hidden');
+            document.getElementById('reservation-form').reset();
+        }
+
+        async function submitReservation(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('submit-btn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Processando...';
+
+            const payload = {
+                numero: document.getElementById('selected-number-input').value,
+                nome: document.getElementById('nome').value,
+                telefone: document.getElementById('telefone').value
+            };
+
+            try {
+                // Using text/plain to avoid CORS preflight issues with Apps Script
+                const response = await fetch(APPS_SCRIPT_URL, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: {
+                        'Content-Type': 'text/plain;charset=utf-8'
+                    }
+                });
+                
+                const result = await response.json();
+
+                if (result.success) {
+                    closeModal();
+                    Swal.fire({
+                        title: 'Sucesso!',
+                        text: 'Número reservado. Efetue o pagamento de R$ 10,00 e envie o comprovante no WhatsApp.',
+                        icon: 'success',
+                        showCancelButton: true,
+                        confirmButtonText: '<i class="fas fa-credit-card"></i> Pagar Agora',
+                        cancelButtonText: '<i class="fab fa-whatsapp"></i> Ir p/ WhatsApp',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#25D366'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.open(PAYMENT_LINK, '_blank');
+                        } else {
+                            window.open(WHATSAPP_LINK, '_blank');
+                        }
+                        // Reload numbers
+                        document.getElementById('numbers-grid').classList.add('hidden');
+                        document.getElementById('loading').classList.remove('hidden');
+                        fetchNumbers();
+                    });
+                } else {
+                    Swal.fire('Erro', 'Ocorreu um erro ao reservar o número: ' + result.error, 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = 'Confirmar Reserva';
+                }
+            } catch (error) {
+                Swal.fire('Erro', 'Não foi possível conectar com o servidor.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = 'Confirmar Reserva';
+            }
+        }
+
+        // Initialize
+        window.onload = fetchNumbers;
+    </script>
+</body>
+</html>
