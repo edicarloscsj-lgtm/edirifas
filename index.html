@@ -185,7 +185,30 @@
         <div class="text-center mb-6">
             <span class="text-slate-500 font-bold tracking-widest uppercase text-sm mb-2 block">Participe Agora</span>
             <h2 class="text-3xl md:text-4xl font-black text-slate-900 tracking-tight">ESCOLHA SEUS NÚMEROS</h2>
-            <p class="text-slate-500 mt-2">Você pode selecionar quantos números quiser!</p>
+            <p class="text-slate-500 mt-2 mb-6">Você pode selecionar quantos números quiser!</p>
+
+            <!-- Legenda de Status de Pagamento -->
+            <div class="flex flex-wrap justify-center items-center gap-4 md:gap-8 text-xs md:text-sm font-bold bg-white inline-flex px-6 py-4 rounded-3xl shadow-sm border border-slate-200">
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md bg-white border-2 border-slate-300"></div>
+                    <span class="text-slate-600 uppercase tracking-wider">Livre</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md bg-amber-50 border-2 border-amber-300 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-50"><div class="w-full h-0.5 bg-amber-400 rotate-45"></div></div>
+                    </div>
+                    <span class="text-amber-500 uppercase tracking-wider">Reservado</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <div class="w-5 h-5 rounded-md bg-slate-200 border-2 border-slate-400 relative overflow-hidden">
+                        <div class="absolute inset-0 flex items-center justify-center opacity-40">
+                            <div class="w-full h-0.5 bg-slate-600 -rotate-45"></div>
+                            <div class="w-full h-0.5 bg-slate-600 rotate-45 absolute"></div>
+                        </div>
+                    </div>
+                    <span class="text-slate-500 uppercase tracking-wider">Pago</span>
+                </div>
+            </div>
         </div>
         
         <!-- Barra de Progresso -->
@@ -350,20 +373,36 @@
                         btn.textContent = padNum;
                         btn.id = `btn-num-${item.numero}`; // ID único para cada botão
                         
-                        if (item.status === 'Livre' || !item.status) {
-                            // Estilo número LIVRE
+                        // Normaliza o texto de status para não dar erro de letra maiúscula/minúscula
+                        const currentStatus = (item.status || 'Livre').trim().toLowerCase();
+
+                        if (currentStatus === 'livre' || currentStatus === 'disponível' || currentStatus === 'disponivel' || currentStatus === '') {
+                            // 1. Estilo número LIVRE / DISPONÍVEL (Branco)
                             btn.className = 'bg-white border-2 border-slate-200 text-slate-600 font-black text-lg md:text-xl py-3 md:py-4 rounded-2xl hover:border-blue-500 transition shadow-sm transform hover:-translate-y-1';
                             btn.onclick = () => toggleNumber(item.numero);
-                        } else {
+                            
+                        } else if (currentStatus === 'reservado') {
                             reservedCount++;
-                            // Estilo número RESERVADO
-                            btn.className = 'bg-slate-100 border-2 border-slate-100 text-slate-300 font-bold text-lg md:text-xl py-3 md:py-4 rounded-2xl cursor-not-allowed relative overflow-hidden';
+                            // 2. Estilo número RESERVADO (Amarelo/Laranja)
+                            btn.className = 'bg-amber-50 border-2 border-amber-300 text-amber-500 font-bold text-lg md:text-xl py-3 md:py-4 rounded-2xl cursor-not-allowed relative overflow-hidden shadow-inner';
+                            btn.innerHTML = `<span class="relative z-10">${padNum}</span>
+                                           <div class="absolute inset-0 flex items-center justify-center opacity-50">
+                                              <div class="w-full h-0.5 bg-amber-400 rotate-45"></div>
+                                           </div>`;
+                            btn.disabled = true;
+                            
+                        } else {
+                            // 3. Estilo número PAGO (Cinza escuro, bloqueado)
+                            reservedCount++;
+                            btn.className = 'bg-slate-200 border-2 border-slate-400 text-slate-500 font-bold text-lg md:text-xl py-3 md:py-4 rounded-2xl cursor-not-allowed relative overflow-hidden shadow-inner';
                             btn.innerHTML = `<span class="relative z-10">${padNum}</span>
                                            <div class="absolute inset-0 flex items-center justify-center opacity-40">
-                                              <div class="w-full h-0.5 bg-slate-400 rotate-45"></div>
+                                              <div class="w-full h-0.5 bg-slate-600 -rotate-45"></div>
+                                              <div class="w-full h-0.5 bg-slate-600 rotate-45 absolute"></div>
                                            </div>`;
                             btn.disabled = true;
                         }
+                        
                         grid.appendChild(btn);
                     });
 
